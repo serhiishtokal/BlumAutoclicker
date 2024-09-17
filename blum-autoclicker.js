@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name         Blum AutoClicker
-// @version      1.0
+// @version      1.1
+// @namespace    http://tampermonkey.net/
 // @description  An autoclicker script for the Blum game with configurable settings.
 // @author       serhiishtokal
 // @match        https://telegram.blum.codes/*
