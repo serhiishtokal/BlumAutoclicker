@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Blum AutoClicker
-// @version      1.4
+// @version      1.5
 // @namespace    http://tampermonkey.net/
 // @description  An autoclicker script for the Blum game with configurable settings.
 // @author       serhiishtokal
@@ -26,8 +26,8 @@
             minBombHits: getRandomInt(0, 1),
             minIceHits: getRandomInt(2, 3),
             flowerSkipPercentage: getRandomInt(15, 25),
-            badGamesPercentage: 5,
-            badGameFlowerSkipPercentageMultiplier: 1.5,
+            badGamesPercentage: 10,
+            badGameFlowerSkipPercentageMultiplier: 5,
             minDelayMs: 2000,
             maxDelayMs: 5000,
             autoClickPlay: false,
@@ -39,6 +39,7 @@
     let autoClickPlayTimer = null;
     let gameStats = resetGameStats();
     let isBadGame = 0;
+    let actualFlowerSkipPercentage = gameSettings.flowerSkipPercentage;
 
     init();
 
@@ -136,6 +137,7 @@
                     if (gameSettings.autoClickPlay && !isGamePaused) {
                         button.click();
                         isBadGame = Math.random() < gameSettings.badGamesPercentage /100;
+                        actualFlowerSkipPercentage = gameSettings.flowerSkipPercentage * getRandomInt(70,400)/100;
                         gameStats = resetGameStats(); // Reset game stats when a new game starts
                         if (autoClickPlayTimerExpired()) {
                             gameSettings.autoClickPlay = false;
@@ -765,7 +767,7 @@
      * @param {Object} element - The flower element.
      */
     function processFlower(element) {
-        let flowerSkipPercentage = gameSettings.flowerSkipPercentage * getRandomInt(80,120)/100;
+        let flowerSkipPercentage = actualFlowerSkipPercentage;
         if(isBadGame){
             flowerSkipPercentage *= gameSettings.badGameFlowerSkipPercentageMultiplier; 
         }
