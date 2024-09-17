@@ -25,6 +25,8 @@
             minBombHits: getRandomInt(0, 1),
             minIceHits: getRandomInt(2, 3),
             flowerSkipPercentage: getRandomInt(15, 25),
+            badGamesPercentage: 5,
+            badGameFlowerSkipPercentageMultiplier: 1.5,
             minDelayMs: 2000,
             maxDelayMs: 5000,
             autoClickPlay: false,
@@ -35,6 +37,7 @@
     let isGamePaused = false;
     let autoClickPlayTimer = null;
     let gameStats = resetGameStats();
+    let isBadGame = 0;
 
     init();
 
@@ -131,6 +134,7 @@
                 setTimeout(() => {
                     if (gameSettings.autoClickPlay && !isGamePaused) {
                         button.click();
+                        isBadGame = Math.random() < gameSettings.badGamesPercentage /100;
                         gameStats = resetGameStats(); // Reset game stats when a new game starts
                         if (autoClickPlayTimerExpired()) {
                             gameSettings.autoClickPlay = false;
@@ -753,12 +757,19 @@
         }
     }
 
+    
+    const randomizer = Math.random()<0.04;
     /**
      * Processes a flower element.
      * @param {Object} element - The flower element.
      */
     function processFlower(element) {
-        const shouldSkip = Math.random() < gameSettings.flowerSkipPercentage / 100;
+        let flowerSkipPercentage = gameSettings.flowerSkipPercentage * getRandomInt(80,120)/100;
+        if(isBadGame){
+            flowerSkipPercentage *= gameSettings.badGameFlowerSkipPercentageMultiplier; 
+        }
+        
+        const shouldSkip = Math.random() < flowerSkipPercentage / 100;
         if (shouldSkip) {
             gameStats.flowersSkipped++;
         } else {
