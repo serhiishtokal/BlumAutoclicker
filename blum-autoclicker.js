@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Blum AutoClicker
-// @version      1.6
+// @version      1.7
 // @namespace    http://tampermonkey.net/
 // @description  An autoclicker script for the Blum game with configurable settings.
 // @author       serhiishtokal
@@ -25,11 +25,11 @@
     const DEFAULT_SETTINGS = {
             minBombHits: getRandomInt(0, 1),
             minIceHits: getRandomInt(2, 3),
-            flowerSkipPercentage: getRandomInt(15, 25),
+            flowerSkipPercentage: getRandomInt(10, 20),
             badGamesPercentage: 10,
             badGameFlowerSkipPercentageMultiplier: 5,
-            minDelayMs: 2000,
-            maxDelayMs: 5000,
+            minDelayMs: 1000,
+            maxDelayMs: 4000,
             autoClickPlay: false,
             autoClickPlayDuration: 1800, // Duration in seconds (0 = infinite)
         };
@@ -156,7 +156,7 @@
     function getRandomDelay() {
         return getRandomInt(gameSettings.minDelayMs, gameSettings.maxDelayMs);
     }
-
+    
     /**
      * Sets up the settings menu UI.
      */
@@ -759,8 +759,7 @@
                 break;
         }
     }
-
-    
+        
     const randomizer = Math.random()<0.04;
     /**
      * Processes a flower element.
@@ -776,8 +775,15 @@
         if (shouldSkip) {
             gameStats.flowersSkipped++;
         } else {
-            gameStats.score++;
-            clickElement(element);
+            setTimeout(() => {
+                try {
+                    gameStats.score++;
+                    clickElement(element);
+                }
+                catch (error) {
+                    console.error('Blum Autoclicker error:', error);
+                }
+            }, getRandomInt(0, 1000))
         }
     }
 
@@ -787,9 +793,11 @@
      */
     function processBomb(element) {
         if (gameStats.bombHits < gameSettings.minBombHits) {
-            gameStats.score = 0;
-            clickElement(element);
-            gameStats.bombHits++;
+            setTimeout(() => {
+                gameStats.score = 0;
+                clickElement(element);
+                gameStats.bombHits++;
+            }, getRandomInt(0, 1000))
         }
     }
 
@@ -799,8 +807,10 @@
      */
     function processIce(element) {
         if (gameStats.iceHits < gameSettings.minIceHits) {
-            clickElement(element);
-            gameStats.iceHits++;
+            setTimeout(() => {
+                clickElement(element);
+                gameStats.iceHits++;
+            }, getRandomInt(0, 1000))
         }
     }
 
