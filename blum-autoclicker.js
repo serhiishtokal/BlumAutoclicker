@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Blum AutoClicker
-// @version      1.7
+// @version      1.8
 // @namespace    http://tampermonkey.net/
 // @description  An autoclicker script for the Blum game with configurable settings.
 // @author       serhiishtokal
@@ -27,7 +27,7 @@
             minIceHits: getRandomInt(2, 3),
             flowerSkipPercentage: getRandomInt(10, 20),
             badGamesPercentage: 10,
-            badGameFlowerSkipPercentageMultiplier: 5,
+            badGameFlowerSkipPercentageMultiplier: 2,
             minDelayMs: 1000,
             maxDelayMs: 4000,
             autoClickPlay: false,
