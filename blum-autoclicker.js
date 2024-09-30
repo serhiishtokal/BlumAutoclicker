@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Blum AutoClicker
-// @version      1.8
+// @version      1.9
 // @namespace    http://tampermonkey.net/
 // @description  An autoclicker script for the Blum game with configurable settings.
 // @author       serhiishtokal
@@ -26,7 +26,7 @@
             minBombHits: getRandomInt(0, 1),
             minIceHits: getRandomInt(2, 3),
             flowerSkipPercentage: getRandomInt(10, 20),
-            badGamesPercentage: 10,
+            badGamesPercentage: 5,
             badGameFlowerSkipPercentageMultiplier: 2,
             minDelayMs: 1000,
             maxDelayMs: 4000,
@@ -137,7 +137,7 @@
                     if (gameSettings.autoClickPlay && !isGamePaused) {
                         button.click();
                         isBadGame = Math.random() < gameSettings.badGamesPercentage /100;
-                        actualFlowerSkipPercentage = gameSettings.flowerSkipPercentage * getRandomInt(40,200)/100;
+                        actualFlowerSkipPercentage = gameSettings.flowerSkipPercentage * getRandomInt(80,120)/100;
                         gameStats = resetGameStats(); // Reset game stats when a new game starts
                         if (autoClickPlayTimerExpired()) {
                             gameSettings.autoClickPlay = false;
